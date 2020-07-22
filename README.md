@@ -7,11 +7,15 @@ npm install
 #Use it also for rebuild C++ code
 ```
 
-#### Run
+#### Run as node-addon
 ```sh
 npm start
 ```
-Or you can build and run `main.cpp` file manually (without node-gyp, which uses `main.cc`)
+
+#### Run as C++ application
+Change `add_executable(cl_project main.cc)` to `add_executable(cl_project main.cpp)` in `CMakeList.txt`  
+Build and run it by CLion etc.
+
 
 #### Files
 `group-by.js` - JS algorithm   
