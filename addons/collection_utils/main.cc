@@ -1,5 +1,5 @@
 #include <napi.h>
-#include "group_by.h"
+#include "group_by_napi.h"
 
 Napi::Object init(Napi::Env env, Napi::Object exports)
 {
