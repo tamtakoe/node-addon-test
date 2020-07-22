@@ -11,7 +11,7 @@ npm install
 ```sh
 npm start
 ```
-Or you also can build and run `main.cpp` file manually (without node-gyp, which uses `main.cc`)
+Or you can build and run `main.cpp` file manually (without node-gyp, which uses `main.cc`)
 
 #### Files
 `group-by.js` - JS algorithm   
