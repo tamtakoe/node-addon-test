@@ -3,8 +3,8 @@
 #include <napi.h>
 #include <iostream>
 #include <algorithm>
-#include <deque>
-#include <map>
+#include <vector>
+#include <unordered_map>
 #include <string>
 #include <variant>
 #include <chrono>
@@ -13,11 +13,11 @@ using namespace std;
 
 using Key = std::string;
 using Value = variant<std::string, double, bool>;
-using Item = map<Key, Value>;
-using Items = deque<Item>;
-using GroupValue = variant<std::string, double, bool, deque<Item*>>;
-using Group = map<Key, GroupValue>;
-using Groups = deque<Group>;
+using Item = unordered_map<Key, Value>;
+using Items = vector<Item>;
+using GroupValue = variant<std::string, double, bool, vector<Item*>>;
+using Group = unordered_map<Key, GroupValue>;
+using Groups = vector<Group>;
 
 // For pretty_print
 ostream& operator<<(ostream& out, Item * value) {
@@ -40,9 +40,9 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
     // Arguments
     Items items;
     string groupField = info[1].As<Napi::String>();
-    deque<string> sumFields;
+    vector<string> sumFields;
 
-    // Convert sumFields to deque<string>
+    // Convert sumFields to vector<string>
     Napi::Array jsSumFields = info[2].IsArray() ? info[2].As<Napi::Array>() : Napi::Array::New(env);
 
     for (int i = 0; i < jsSumFields.Length(); i++) {
@@ -50,7 +50,7 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
         sumFields.push_back(sumField);
     }
 
-    // Convert items to deque<string, variant<std::string, double, bool>>
+    // Convert items to vector<string, variant<std::string, double, bool>>
     Napi::Array jsItems = info[0].As<Napi::Array>();
 
     for (int i = 0; i < jsItems.Length(); i++) {
@@ -116,7 +116,7 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
                     Napi::Array jsItems = Napi::Array::New(env);
                     int m = 0;
 
-                    deque<Item*> items = std::get<deque<Item*>>(pair.second);
+                    vector<Item*> items = std::get<vector<Item*>>(pair.second);
 
                     for_each(begin(items), end(items), [&](Item*& pItem) {
                         Item& item = *pItem;

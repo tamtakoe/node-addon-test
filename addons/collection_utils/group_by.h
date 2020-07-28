@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include <algorithm>
-#include <deque>
-#include <map>
+#include <vector>
+#include <unordered_map>
 #include <string>
 #include <variant>
 
@@ -10,11 +10,11 @@ using namespace std;
 
 using Key = std::string;
 using Value = variant<std::string, double, bool>;
-using Item = map<Key, Value>;
-using Items = deque<Item>;
-using GroupValue = variant<std::string, double, bool, deque<Item*>>;
-using Group = map<Key, GroupValue>;
-using Groups = deque<Group>;
+using Item = unordered_map<Key, Value>;
+using Items = vector<Item>;
+using GroupValue = variant<std::string, double, bool, vector<Item*>>;
+using Group = unordered_map<Key, GroupValue>;
+using Groups = vector<Group>;
 
 template <class... Args>
 struct variant_cast_proxy
@@ -34,7 +34,7 @@ auto variantCast(const std::variant<Args...>& v) -> variant_cast_proxy<Args...>
     return { v };
 }
 
-Groups groupBy(Items& items, const Key groupField, const deque<Key>& sumFields) {
+Groups groupBy(Items& items, const Key groupField, const vector<Key>& sumFields) {
     // Sort items by groupField
     std::sort(items.begin(), items.end(), [&groupField](Item& a, Item& b) { return a[groupField] < b[groupField]; });
 
@@ -42,7 +42,7 @@ Groups groupBy(Items& items, const Key groupField, const deque<Key>& sumFields) 
     Value currentGroupName;
     Group* pCurrentGroup = nullptr;
     Groups groups;
-    deque<Item*>* pCurrentGroupItems = nullptr;
+    vector<Item*>* pCurrentGroupItems = nullptr;
     for (Item& item : items) {
 
         // Create new group
@@ -60,7 +60,7 @@ Groups groupBy(Items& items, const Key groupField, const deque<Key>& sumFields) 
             (*pCurrentGroup)["groupField"] = groupField;
             (*pCurrentGroup)["groupValue"] = variantCast(currentGroupName);
 
-            pCurrentGroupItems = &get<deque<Item*>>((*pCurrentGroup)["items"] = deque<Item*>{});
+            pCurrentGroupItems = &get<vector<Item*>>((*pCurrentGroup)["items"] = vector<Item*>{});
 
             // Set sumFields in `0`
             for (const auto& sf : sumFields) {
