@@ -16,6 +16,8 @@ npm start
 Change `add_executable(cl_project main.cc)` to `add_executable(cl_project main.cpp)` in `CMakeList.txt`  
 Build and run it by CLion etc.
 
+#### How Node Addon works
+binding.gyp -> main.cc
 
 #### Files
 `group-by.js` - JS algorithm   

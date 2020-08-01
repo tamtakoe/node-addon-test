@@ -69,7 +69,8 @@ Groups groupBy(Items& items, const Key groupField, const vector<Key>& sumFields)
         }
 
         // Add item to the group item collection
-        pCurrentGroupItems->push_back(&item);
+//        pCurrentGroupItems->push_back(&item);
+        pCurrentGroupItems->emplace_back(&item);
 
         // Aggregate values from sumFields
         for (auto& sf : sumFields) {

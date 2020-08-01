@@ -27,43 +27,32 @@
  * @returns Array<any>
  */
 function groupBy(items, field, sumFields = []) {
-    const itemsByField = new Map() // We need correct order of items
-    const sumReducer = (fieldName) => (prev, next) => (prev + next[fieldName] || 0);
+    const groupsMap = {};
 
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        const groupKey = item[field];
-        const groupedCollection = itemsByField.get(groupKey) || [];
+        const groupValue = item[field];
+        let group = groupsMap[groupValue];
 
-        if (!groupedCollection.length) {
-            itemsByField.set(groupKey, groupedCollection);
+        if (!group) {
+            group = {items: [], groupField: field, groupValue: groupValue, ...item};
+            groupsMap[groupValue] = group;
         }
-
-        groupedCollection.push(item);
-    }
-
-    const result = [];
-
-    for (const entry of itemsByField) {
-        const key = entry[0];
-        const items = entry[1];
-        const aggregatedItem = { ...items[0] }; // Copy first item
 
         // Add values which should be summed
         for (let j = 0; j < sumFields.length; j++) {
             const fieldName = sumFields[j];
+            const sumValue = item[fieldName];
 
-            aggregatedItem[fieldName] = items.reduce(sumReducer(fieldName), 0)
+            if (sumValue) {
+                group[fieldName] += sumValue;
+            }
         }
 
-        aggregatedItem.groupField = field;
-        aggregatedItem.groupValue = key;
-        aggregatedItem.items = items;
-
-        result.push(aggregatedItem);
+        group.items.push(item);
     }
 
-    return result;
+    return Object.keys(groupsMap).map(key => groupsMap[key]);
 }
 
 module.exports = groupBy;
