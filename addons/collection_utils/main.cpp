@@ -47,6 +47,7 @@ int main()
 
     cout << std::boolalpha;
 //    pretty::print(std::cout, groupped) << std::endl;
+    system("pause");
 
     return 0;
 }

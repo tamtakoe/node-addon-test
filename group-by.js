@@ -1,23 +1,38 @@
 /**
  * Group items by field
  *
- * items =
- *   [{id: 1, name: 'A', i: 1}, {id: 2, name: 'B', i: 2}, {id: 3, name: 'A', i: 3}, {id: 4, name: 'B', i: 4}, {id: 5, name: 'A', i: 5}]
+ * items = [
+ *  {id: 1, name: 'A', val: 1, smth: true},
+ *  {id: 2, name: 'B', val: 2, ...},
+ *  {id: 3, name: 'A', val: 3, ...},
+ *  {id: 4, name: 'B', val: 4, ...},
+ *  {id: 5, name: 'A', val: 5, ...}
+ * ]
  *
- * groupByField(items, 'name', ['i']) =
+ * groupBy(items, 'name', ['val', ...]) =
  *   [
  *     {
  *       groupField: 'name',
  *       groupValue: 'A',
- *       items: [{id: 1, name: 'A', i: 1}, {id: 3, name: 'A', i: 3}, {id: 5, name: 'A', i: 5}],
- *       id: 1, //First value
- *       i: 9   //Summed value
+ *
+ *       // Items of the group
+ *       items: [{id: 1, name: 'A', val: 1, , smth: true}, {id: 3, name: 'A', val: 3}, {id: 5, name: 'A', val: 5}],
+ *
+ *       // Values of first item
+ *       id: 1,
+ *       smth: true,
+ *       ...
+ *
+ *       // Summed values
+ *       val: 9,
+ *       ...
  *     }, {
  *       groupField: 'name',
  *       groupValue: 'B',
- *       items: [{id: 2, name: 'B', i: 2}, {id: 4, name: 'B', i: 4}],
+ *       items: [{id: 2, name: 'B', val: 2}, {id: 4, name: 'B', val: 4}],
  *       id: 2,
- *       i: 6
+ *       val: 6,
+ *       ...
  *     }
  *   ]
  *

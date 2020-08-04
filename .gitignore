@@ -107,3 +107,6 @@ dist
 .vs
 build
 cmake-build-debug
+cmake-build-release
+boost
+fmt

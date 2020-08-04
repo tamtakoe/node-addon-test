@@ -1,30 +1,73 @@
 # node-addon-test
+Playground with C++ addons, WebAssembly etc.
 
 #### Install
-Install node.js 12+
+- Install node.js 12+
+- [Optional. Just for `main-WIP.cpp`] Install [Boost C++ library](https://www.boost.org/) 1.71.0+ (Put to `addons/collection_utils/boost` folder)
+```sh
+npm install
+```
+
+#### Run
+```sh
+npm start 
+```
+
+## JavaScript
+- `group-by.js` - JS algorithm   
+
+## Native node.js addon ([N-API](https://nodejs.org/api/n-api.html))
+- `binding.gyp` - node-gyp settings
+- `addons/collection_utils/main.cc` - entry point  
+- `addons/collection_utils/group_by.h` - C++ algorithm   
+- `addons/collection_utils/group_by_napi.h` - JS/C++ wrappers (need totally optimization)
+- `addons/collection_utils/index.js` - exports addon to node.js module
+- `addons/collection_utils/CMakeLists.txt` - CMake file for manual testing (without node-gyp)
+- `addons/collection_utils/main.cpp` - entry point for manual testing
+
+##### Compile as node-addon
 ```sh
 npm install 
-#Use it also for rebuild C++ code
+# Yes, it also rebuilds C++ code
 ```
 
-#### Run as node-addon
+##### Compile and run as C++ application
+Build and run `CMakeLists.txt` by CLion etc.
+
+
+## Webassembly module ([Embind binder](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html))
+
+- `webassembly/group_by.cpp` - c++ example
+- Other files are generated
+
+Compile wasm
 ```sh
-npm start
+em++ --bind -std=c++1z group_by.cpp -o group_by.js
 ```
 
-#### Run as C++ application
-Change `add_executable(cl_project main.cc)` to `add_executable(cl_project main.cpp)` in `CMakeList.txt`  
-Build and run it by CLion etc.
+- `webassembly/group_by.js` - result module
 
-#### How Node Addon works
-binding.gyp -> main.cc
 
-#### Files
-`group-by.js` - JS algorithm   
-`group_by.h` - C++ algorithm   
-`group_by_napi.h` - JS/C++ wrappers (need totally optimization)
+## Webassembly module ([WebIDL binder](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/WebIDL-Binder.html))
 
-#### Example
+- `webassembly-webidl/group_by.idl` - interface declaration
+- `webassembly-webidl/group_by.cpp` - c++ example
+- `webassembly-webidl/glue_wrapper.cpp` - represents classes for binding
+- Other files are generated
+
+Generate glue files
+```sh
+python <emsdk-path>/upstream/emscripten/tools/webidl_binder.py group_by.idl glue
+```
+
+Compile wasm
+```sh
+em++ -std=c++1z glue_wrapper.cpp --post-js glue.js -o group_by.js
+```
+
+- `webassembly-webidl/group_by.js` - result module
+
+## Example
 Group items by field
 ```js
 // Source data
