@@ -1,8 +1,8 @@
 {
   "targets": [
     {
-      "target_name": "collection_utils",
-      "sources": [ "addons/collection_utils/main.cc" ],
+      "target_name": "native_napi",
+      "sources": [ "addons/native_napi/main.cc" ],
       "defines": [ "NAPI_DISABLE_CPP_EXCEPTIONS" ],
       "include_dirs" : [ "<!@(node -p \"require('node-addon-api').include\")" ],
       "dependencies": [ "<!(node -p \"require('node-addon-api').gyp\")" ],

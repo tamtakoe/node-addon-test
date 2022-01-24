@@ -25,6 +25,22 @@ ostream& operator<<(ostream& out, Item * value) {
     return out;
 };
 
+Value primitiveJsToValue(Napi::Value jsValue) {
+    Value value;
+
+    if (jsValue.IsNumber()) {
+        value = (double)jsValue.As<Napi::Number>().DoubleValue();
+
+    } else if (jsValue.IsBoolean()) {
+        value = (bool)jsValue.As<Napi::Boolean>();
+
+    } else if (jsValue.IsString()) {
+        value = (string)jsValue.As<Napi::String>();
+    }
+
+    return value;
+}
+
 
 // Wrap/Unwrap by N-api
 Napi::Value GroupBy(const Napi::CallbackInfo &info) {
@@ -66,24 +82,14 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
             string key = (string)jsKey.As<Napi::String>();
             Napi::Value jsValue = jsItem.Get(jsKey);
 
-            if (jsValue.IsNumber()) {
-                value = (double)jsValue.As<Napi::Number>().DoubleValue();
-
-            } else if (jsValue.IsBoolean()) {
-                value = (bool)jsValue.As<Napi::Boolean>();
-
-            } else if (jsValue.IsString()) {
-                value = (string)jsValue.As<Napi::String>();
-            }
-
-            item[key] = value;
+            item[key] = primitiveJsToValue(jsValue);
         }
 
         items.push_back(item);
     }
 
     auto t1 = std::chrono::system_clock::now();
-    cout << "Convert JS -> C++ data: " << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() << endl;
+    cout << "- Convert JS input data to C++ data in ms: " << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() << endl;
 
     /////////////////////////////////////////////
     // Do work
@@ -91,7 +97,7 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
     // pretty::print(std::cout, result) << std::endl;
 
     auto t2 = std::chrono::system_clock::now();
-    cout << "C++ Groupping: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << endl;
+    cout << "- C++ groupping in ms: " << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << endl;
     /////////////////////////////////////////////
 
     // Wrap C++ to JS
@@ -147,7 +153,7 @@ Napi::Value GroupBy(const Napi::CallbackInfo &info) {
     });
 
     auto t3 = std::chrono::system_clock::now();
-    cout << "Convert C++ -> JS data: " << std::chrono::duration_cast<std::chrono::milliseconds>(t3 - t2).count() << endl;
+    cout << "- Convert C++ output data to JS data in ms: " << std::chrono::duration_cast<std::chrono::milliseconds>(t3 - t2).count() << endl;
 
     return jsResult;
 }

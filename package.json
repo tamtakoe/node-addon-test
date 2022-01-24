@@ -7,7 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": ["node-gyp","node-addon","n-api","webassembly", "embind", "WebIDL"],
+  "keywords": [
+    "node-gyp",
+    "node-addon",
+    "n-api",
+    "webassembly",
+    "embind",
+    "WebIDL"
+  ],
   "author": "",
   "license": "MIT",
   "gypfile": true,

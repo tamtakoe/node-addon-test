@@ -3,14 +3,14 @@ Playground with C++ addons, WebAssembly etc.
 
 #### Install
 - Install node.js 12+
-- [Optional. Just for `main-WIP.cpp`] Install [Boost C++ library](https://www.boost.org/) 1.71.0+ (Put to `addons/collection_utils/boost` folder)
+- [Optional. Just for `main-WIP.cpp`] Install [Boost C++ library](https://www.boost.org/) 1.71.0+ (Put to `addons/native_napi/boost` folder)
 ```sh
 npm install
 ```
 
 #### Run
 ```sh
-npm start 
+npm start # runs ./index.js
 ```
 
 ## JavaScript
@@ -18,12 +18,12 @@ npm start
 
 ## Native node.js addon ([N-API](https://nodejs.org/api/n-api.html))
 - `binding.gyp` - node-gyp settings
-- `addons/collection_utils/main.cc` - entry point  
-- `addons/collection_utils/group_by.h` - C++ algorithm   
-- `addons/collection_utils/group_by_napi.h` - JS/C++ wrappers (need totally optimization)
-- `addons/collection_utils/index.js` - exports addon to node.js module
-- `addons/collection_utils/CMakeLists.txt` - CMake file for manual testing (without node-gyp)
-- `addons/collection_utils/main.cpp` - entry point for manual testing
+- `addons/native_napi/main.cc` - entry point  
+- `addons/native_napi/group_by.h` - C++ algorithm   
+- `addons/native_napi/group_by_binding.h` - JS/C++ wrappers (need totally optimization)
+- `addons/native_napi/index.js` - exports addon to node.js module
+- `addons/native_napi/CMakeLists.txt` - CMake file for manual testing (without node-gyp)
+- `addons/native_napi/main.cpp` - entry point for manual testing
 
 ##### Compile as node-addon
 ```sh
@@ -37,15 +37,19 @@ Build and run `CMakeLists.txt` by CLion etc.
 
 ## Webassembly module ([Embind binder](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html))
 
-- `webassembly/group_by.cpp` - c++ example
+- `webassembly-embind/group_by.cpp` - c++ example
 - Other files are generated
+
+Install [emsdk](https://emscripten.org/docs/getting_started/downloads.html)
 
 Compile wasm
 ```sh
-em++ --bind -std=c++1z group_by.cpp -o group_by.js
+em++ --bind -std=c++1z -s ALLOW_MEMORY_GROWTH=1 <path_to_addon>/group_by.cpp -o <path_to_addon>/group_by.js
 ```
 
-- `webassembly/group_by.js` - result module
+ALLOW_MEMORY_GROWTH=1 needs just for huge amount of data
+
+- `webassembly-embind/group_by.js` - result module
 
 
 ## Webassembly module ([WebIDL binder](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/WebIDL-Binder.html))
