@@ -17,7 +17,7 @@ npm start # runs ./index.js
 - `group-by.js` - JS algorithm   
 
 ## Native node.js addon ([N-API](https://nodejs.org/api/n-api.html))
-- `binding.gyp` - node-gyp settings
+- `binding.gyp` - node-gyp compiler settings
 - `addons/native_napi/main.cc` - entry point  
 - `addons/native_napi/group_by.h` - C++ algorithm   
 - `addons/native_napi/group_by_binding.h` - JS/C++ wrappers (need totally optimization)

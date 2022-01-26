@@ -1,5 +1,5 @@
 const groupBy = require('./group-by');
-const collectionUtils = require('./addons/native_napi');
+const NativeNapi = require('./addons/native_napi');
 
 function generateData(amount) {
     return Array.from({length: amount}, (v, i) => {
@@ -35,7 +35,7 @@ console.timeEnd('Duration')
  */
 console.log('\n# Native addon with N-API')
 console.time('Duration')
-grouped = collectionUtils.groupBy(data, 'group', ['number', 'number2'])
+grouped = NativeNapi.groupBy(data, 'group', ['number', 'number2'])
 console.timeEnd('Duration')
 // console.log(JSON.stringify(grouped, null, 2));
 
@@ -67,3 +67,14 @@ WebidlModule['onRuntimeInitialized'] = function(a) {
 
     // console.log('Result:', res)
 };
+
+// const fs = require('fs');
+// const wasmBuffer = fs.readFileSync('./addons/webassembly-embind/group_by.wasm');
+// WebAssembly.instantiate(wasmBuffer).then(wasmModule => {
+//     // Exported function live under instance.exports
+//     const groupBy = wasmModule.instance.exports.groupBy;
+//     console.log('\n# WebAssembly without emscripten')
+//     console.time('Duration')
+//     grouped = groupBy(data, 'group', ['number', 'number2']);
+//     console.timeEnd('Duration')
+// });
