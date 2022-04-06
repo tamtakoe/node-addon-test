@@ -1,5 +1,5 @@
 #include "group_by.h"
-#include "pretty_print/pretty_print.hpp"
+//#include "pretty_print/pretty_print.hpp"
 #include <napi.h>
 #include <iostream>
 #include <algorithm>
@@ -20,10 +20,10 @@ using Group = unordered_map<Key, GroupValue>;
 using Groups = vector<Group>;
 
 // For pretty_print
-ostream& operator<<(ostream& out, Item * value) {
-    pretty::print(out, *value);
-    return out;
-};
+//ostream& operator<<(ostream& out, Item * value) {
+//    pretty::print(out, *value);
+//    return out;
+//};
 
 Value primitiveJsToValue(Napi::Value jsValue) {
     Value value;

@@ -3,17 +3,17 @@
 #include <iostream>
 #include <deque>
 #include <vector>
-#include "pretty_print/pretty_print.hpp"
+//#include "pretty_print/pretty_print.hpp"
 #include <chrono>
 #include "group_by.h"
 
 using namespace std;
 
 // For pretty_print
-ostream& operator<<(ostream& out, Item * value) {
-    pretty::print(out, *value);
-    return out;
-};
+//ostream& operator<<(ostream& out, Item * value) {
+//    pretty::print(out, *value);
+//    return out;
+//};
 
 int main()
 {

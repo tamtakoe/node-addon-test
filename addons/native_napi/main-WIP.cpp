@@ -13,7 +13,7 @@
 #include <boost/hana.hpp>
 #include <boost/hana/ext/std.hpp>
 #include <boost/hana/experimental/printable.hpp>
-#include "pretty_print/pretty_print.hpp"
+//#include "pretty_print/pretty_print.hpp"
 
 using namespace std::literals;
 using sv = std::string_view;
@@ -184,11 +184,13 @@ int main() {
 
    for(auto && [key, value]: map) {
      auto && [items, sum] = value;
-     pretty::print(std::cerr, key) << "{";
+//     pretty::print(std::cerr, key) << "{";
+
 //     std::cerr << key << "{";
 //     for(auto item: items) pretty::print(std::cerr, item.get()) << ",";
 //     for(auto item: items) std::cerr << hana::experimental::print(item.get()) << ",";
-     std::cerr << "} " << sum << '\n';
+
+//     std::cerr << "} " << sum << '\n';
    }
 
 
