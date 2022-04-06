@@ -30,6 +30,11 @@ npm start # runs ./index.js
 npm install 
 # Yes, it also rebuilds C++ code
 ```
+Note: check "MACOSX_DEPLOYMENT_TARGET" in your binding.gyp has quite differences or equivalent of your version of MacOS.
+If an error try to compile code with C version:
+```sh
+export CXXFLAGS="--std=c++17" && npm install
+```
 
 ##### Compile and run as C++ application
 Build and run `CMakeLists.txt` by CLion etc.
@@ -42,9 +47,9 @@ Build and run `CMakeLists.txt` by CLion etc.
 
 Install [emsdk](https://emscripten.org/docs/getting_started/downloads.html)
 
-Compile wasm
+Compile WASM (Run it from emsdk directory)
 ```sh
-em++ --bind -std=c++1z -s ALLOW_MEMORY_GROWTH=1 <path_to_addon>/group_by.cpp -o <path_to_addon>/group_by.js
+em++ --bind -std=c++1z -s ALLOW_MEMORY_GROWTH=1 <path_to_addon>/group_by_binding.cpp -o <path_to_addon>/group_by.js
 ```
 
 ALLOW_MEMORY_GROWTH=1 needs just for huge amount of data
